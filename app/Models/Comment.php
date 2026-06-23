@@ -12,8 +12,8 @@ class Comment extends Model
 
     public $timestamps = true;
 
-    public const CREATED_AT = 'created';
-    public const UPDATED_AT = 'updated';
+    // public const CREATED_AT = 'created';
+    // public const UPDATED_AT = 'updated';
 
     public $incrementing = true;
 
