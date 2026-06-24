@@ -23,7 +23,7 @@ class PostController extends Controller
         //     echo $post->user->name .'<br>';
         // }
         // return response()->json($posts);
-        $posts = Post::with('user', 'comments.user')->get();
+        $posts = Post::with('user', 'comments.user')->latest()->get();
         $name = 'John Doe';
         return Inertia::render('Posts/Index', [
             'posts' => $posts,
@@ -45,7 +45,12 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        //
+        $post = new Post();
+        $post->content = $request->input('content');
+        $post->user_id = auth()->id(); // Assuming you have authentication set up
+        $post->save();
+
+        return redirect()->route('posts.index')->with('success', 'Post created successfully.');
     }
 
     /**

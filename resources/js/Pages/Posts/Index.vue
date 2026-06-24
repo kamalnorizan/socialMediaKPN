@@ -1,10 +1,37 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, useForm, usePage } from '@inertiajs/vue3';
+import { ref, computed, watch } from 'vue';
 
 defineProps({
     posts: Array,
 });
+
+const page = usePage();
+
+const authUser = page.props.auth.user;
+const flashSuccess = computed(() => page.props.flash.success);
+
+// watch(flashSuccess, (newValue) => {
+//     if (newValue) {
+//         // alert(newValue); // You can replace this with a more user-friendly notification system
+//     }
+// });
+
+const postForm = useForm({
+    content: '',
+});
+
+function submitForm() {
+    postForm.post('/posts', {
+        onSuccess: () => {
+            postForm.reset();
+        },
+        onError: (errors) => {
+            console.error(errors);
+        },
+    });
+}
 
 function avatar(name) {
     return name ? name.charAt(0).toUpperCase() : '?';
@@ -35,6 +62,28 @@ function timeAgo(dateString) {
 
         <div class="py-8">
             <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
+                <div v-if="flashSuccess" class="bg-green-100 p-4 rounded-lg mb-4">
+                    {{ flashSuccess }}
+                </div>
+
+                <!-- Create Post Form -->
+                <div class="mb-5 rounded-xl bg-white shadow-sm ring-1 ring-gray-100">
+                     <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-sm font-semibold text-white">
+                            {{ avatar(authUser?.name) }}
+                        </div>
+                    <div class="p-5">
+                        <form @submit.prevent="submitForm">
+                            <textarea v-model="postForm.content" placeholder="What's on your mind?"
+                                class="w-full rounded-lg border border-gray-300 p-3 text-sm text-gray-900 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
+                            <p v-if="postForm.errors.content" class="text-red-500 text-sm mt-1">{{ postForm.errors.content }}</p>
+                            <button type="submit"
+                                class="mt-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                Post
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
                 <div v-for="post in posts" :key="post.id"
                     class="mb-5 rounded-xl bg-white shadow-sm ring-1 ring-gray-100">
                     <div class="p-5">
