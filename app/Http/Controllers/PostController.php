@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use App\Models\Post;
+use Inertia\Inertia;
 
 class PostController extends Controller
 {
@@ -22,9 +23,11 @@ class PostController extends Controller
         //     echo $post->user->name .'<br>';
         // }
         // return response()->json($posts);
-
         $posts = Post::all();
-        return view('posts.index', compact('posts'));
+        return Inertia::render('Posts/Index', [
+            'posts' => $posts,
+        ]);
+        // return view('posts.index', compact('posts'));
     }
 
     /**
