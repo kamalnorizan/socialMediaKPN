@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
+use Barryvdh\Snappy\Facades\SnappyPdf as PDF;
 
 class PostController extends Controller
 {
@@ -131,5 +133,13 @@ class PostController extends Controller
         $post->delete();
 
         return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
+    }
+
+    public function generatePdf() {
+        $posts = Auth::user()->posts()->with('comments')->get();
+
+        $pdf = PDF::loadView('posts.index', compact('posts'));
+
+        return $pdf->download('posts.pdf');
     }
 }
