@@ -77,4 +77,45 @@ class PostController extends Controller
         return response()->json($posts);
     }
 
+    public function store(Request $request) {
+        $request->validate([
+            'content' => 'required|string|max:255',
+        ]);
+
+        $post = new Post();
+        $post->content = $request->input('content');
+        $post->uuid = (string) \Illuminate\Support\Str::uuid(); // Generate a UUID for the post
+        $post->user_id = auth()->id(); // Assuming you have authentication set up
+        $post->save();
+
+        return response()->json(['message' => 'Post created successfully', 'post' => $post], 201);
+    }
+
+    public function update(Request $request, Post $post) {
+        $request->validate([
+            'content' => 'required|string|max:255',
+        ]);
+
+        // Check if the authenticated user is the owner of the post
+        if ($post->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $post->content = $request->input('content');
+        $post->save();
+
+        return response()->json(['message' => 'Post updated successfully', 'post' => $post]);
+    }
+
+    public function destroy(Post $post) {
+        // Check if the authenticated user is the owner of the post
+        if ($post->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $post->delete();
+
+        return response()->json(['message' => 'Post deleted successfully']);
+    }
+
 }
