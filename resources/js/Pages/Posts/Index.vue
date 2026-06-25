@@ -176,7 +176,7 @@ function timeAgo(dateString) {
                             </template>
                         </div>
 
-                        <form v-if="activeCommentPostId === post.id" @submit.prevent="submitComment(post.id)" class="mt-4">
+                        <form v-if="activeCommentPostId === post.id" @submit.prevent="submitComment(post.uuid)" class="mt-4">
                             <textarea v-model="commentForm.content" placeholder="Write a comment..."
                                 class="w-full rounded-lg border border-gray-300 p-3 text-sm text-gray-900 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
                             <p v-if="commentForm.errors.content" class="text-red-500 text-sm mt-1">{{ commentForm.errors.content }}</p>

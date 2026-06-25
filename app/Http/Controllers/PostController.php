@@ -37,6 +37,7 @@ class PostController extends Controller
         $posts = Post::with('user', 'comments.user')->latest()->get()->map(function ($post) {
             return [
                 'id' => $post->id,
+                'uuid' => $post->uuid,
                 'content' => $post->content,
                 'created_at' => $post->created_at,
                 'user' => [

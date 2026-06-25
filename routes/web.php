@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -36,7 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
     Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 
-    Route::post('/comments', [PostController::class, 'storeComment'])->name('comments.store');
+    Route::post('/comments/{post}', [CommentController::class, 'store'])->name('comments.store');
 });
 
 require __DIR__.'/auth.php';

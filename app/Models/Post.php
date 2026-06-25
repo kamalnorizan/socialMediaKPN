@@ -23,12 +23,15 @@ class Post extends Model
 
     // protected $fillable = ['fillable'];
 
+    function getRouteKeyName()
+    {
+        return 'uuid';
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
-
-
 
     public function comments(): HasMany
     {
