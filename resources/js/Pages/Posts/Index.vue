@@ -120,7 +120,7 @@ function timeAgo(dateString) {
                 </div>
                 <div class="mt-4">
                     <label for="limit" class="mr-2 text-sm font-semibold text-gray-700">Posts per page:</label>
-                    <select id="limit" v-model="posts.per_page"
+                    <select id="limit" v-model="posts.per_page" style="width: 80px;"
                         @change="router.get(route('posts.index', { limit: posts.per_page }))"
                         class="rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-700 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         <option value="5">5</option>
