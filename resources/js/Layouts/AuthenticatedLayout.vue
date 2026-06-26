@@ -40,7 +40,6 @@ const showingNavigationDropdown = ref(false);
                                 >
                                     Dashboard
                                 </NavLink>
-                                <NotificationBell />
                             </div>
                         </div>
 

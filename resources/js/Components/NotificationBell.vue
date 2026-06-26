@@ -31,7 +31,6 @@ const goToPost = (notification) => {
                 <span class="visually-hidden">unread notifications</span>
             </span>
         </button>
-        Test
     </div>
 
 </template>
