@@ -11,7 +11,11 @@ const form = useForm({
 });
 
 function submit() {
-    form.patch(route('posts.update', props.post.id));
+    form.patch(route('posts.update', props.post.uuid), {
+        onSuccess: () => {
+            // Handle success, e.g., show a success message or redirect
+        },
+    });
 }
 </script>
 
