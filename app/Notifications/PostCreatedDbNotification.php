@@ -59,6 +59,7 @@ class PostCreatedDbNotification extends Notification {
     {
         return [
             'post_id' => $this->post->id,
+            'post_uuid' => $this->post->uuid,
             'post_content' => $this->post->content,
             'user_id' => $this->user->id,
             'user_name' => $this->user->name,
